@@ -3,7 +3,7 @@
   Import-Export
   Version   := RSLogix 5000 v35.00
   Owner     := , 
-  Exported  := Thu Feb 15 14:15:53 2024
+  Exported  := Thu Feb 15 14:25:00 2024
 
   Note:  File encoded in UTF-8.  Only edit file in a program 
          which supports UTF-8 (like Notepad, not Wordpad).
@@ -794,14 +794,14 @@ CONTROLLER CommonFunctionsGW (ProcessorType := "Emulate 5570",
 
 	END_ADD_ON_INSTRUCTION_DEFINITION
 
-	ADD_ON_INSTRUCTION_DEFINITION AOI_Watchdog_2 (Description := "Monitor an incrementing value from the SCADA and trigger a switchover is the value does not change for more than 10 seconds$N$N",
+	ADD_ON_INSTRUCTION_DEFINITION AOI_Watchdog_2 (Description := "Monitor an incrementing value from the SCADA and trigger a switchover if the value does not change for more than 10 seconds$N$N",
 	                                              Revision := "0.1",
 	                                              ExecutePrescan := No,
 	                                              ExecutePostscan := No,
 	                                              ExecuteEnableInFalse := No,
 	                                              CreatedDate := "2024-02-06T16:31:13.020Z",
 	                                              CreatedBy := "0946a--Rockwell\GJones",
-	                                              EditedDate := "2024-02-13T12:09:01.663Z",
+	                                              EditedDate := "2024-02-15T14:24:44.805Z",
 	                                              EditedBy := "0946a--Rockwell\GJones",
 	                                              SoftwareRevision := "v35.00")
 		PARAMETERS
