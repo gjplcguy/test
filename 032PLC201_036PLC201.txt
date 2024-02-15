@@ -3,7 +3,7 @@
   Import-Export
   Version   := RSLogix 5000 v35.00
   Owner     := , 
-  Exported  := Thu Feb 15 14:25:00 2024
+  Exported  := Thu Feb 15 15:31:32 2024
 
   Note:  File encoded in UTF-8.  Only edit file in a program 
          which supports UTF-8 (like Notepad, not Wordpad).
@@ -741,7 +741,7 @@ CONTROLLER CommonFunctionsGW (ProcessorType := "Emulate 5570",
 	                                              ExecuteEnableInFalse := No,
 	                                              CreatedDate := "2024-02-06T16:31:13.020Z",
 	                                              CreatedBy := "0946a--Rockwell\GJones",
-	                                              EditedDate := "2024-02-13T12:09:49.155Z",
+	                                              EditedDate := "2024-02-15T15:31:32.202Z",
 	                                              EditedBy := "0946a--Rockwell\GJones",
 	                                              SoftwareRevision := "v35.00")
 		PARAMETERS
@@ -768,6 +768,9 @@ CONTROLLER CommonFunctionsGW (ProcessorType := "Emulate 5570",
 		LOCAL_TAGS
 			Counter : COUNTER (ExternalAccess := None,
 			                  DefaultData := "[0,1000,738]");
+			New_Tag : DINT (RADIX := Decimal,
+			                  ExternalAccess := None,
+			                  DefaultData := 0);
 		END_LOCAL_TAGS
 
 		ROUTINE Logic 
@@ -785,7 +788,7 @@ CONTROLLER CommonFunctionsGW (ProcessorType := "Emulate 5570",
 				RC: "Rolling value for SCADA to read and alarm when no change detected for 10 seconds$N"
 				    "$N"
 				    "";
-				N: XIO(Counter.CU)[CTU(Counter,?,?) ,XIC(Counter.DN) CLR(Counter.ACC) ];
+				N: XIO(Counter.CU)XIO(Counter.CU)[CTU(Counter,?,?) ,XIC(Counter.DN) CLR(Counter.ACC) ];
 				RC: "Map the watchdog data to registers for the SCADA$N"
 				    "$N"
 				    "";
@@ -3310,7 +3313,9 @@ CONTROLLER CommonFunctionsGW (ProcessorType := "Emulate 5570",
 		T5_DLR_V_1_Path : STRING  := [18,'1,1,2,172.16.54.58$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00$00'
 				];
 		test : DINT (RADIX := Decimal) := 1091;
-		Watchdog_1_AOI : AOI_Watchdog_1  := [1,0,[0,1000,738]];
+		test1 : BOOL (RADIX := Decimal) := 0;
+		test2 : BOOL (RADIX := Decimal) := 0;
+		Watchdog_1_AOI : AOI_Watchdog_1  := [1,0,[0,1000,738],0];
 		Watchdog_2_AOI : AOI_Watchdog_2  := [1,0,[0,10000,0],0,[0,500,2500]];
 		Watchdog_3_AOI : AOI_Watchdog_3  := [1,[0,10000,10000]];
 		_032PLC201_036PLC201DigCom : DINT[100] (RADIX := Decimal) := [8,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
@@ -3533,6 +3538,7 @@ CONTROLLER CommonFunctionsGW (ProcessorType := "Emulate 5570",
 		END_ST_ROUTINE
 
 		ROUTINE _001_MainRoutine 
+				N: JSR(_New_Routine,0);
 		END_ROUTINE
 
 		ROUTINE _007_Watchdog_GW 
@@ -3541,7 +3547,7 @@ CONTROLLER CommonFunctionsGW (ProcessorType := "Emulate 5570",
 				    "Common Function: Yes$N"
 				    "Author: Guy Jones$N"
 				    "Date: 06/02/2024$N"
-				    "Version: 0.1$N"
+				    "Version: 0.2$N"
 				    "$N"
 				    "Watchdog #1 - Monitor and report status of PLC to SCADA communication health$N"
 				    "Watchdog #2 - Monitor SCADA communication health & perform redundancy switchovers$N"
@@ -3766,6 +3772,10 @@ CONTROLLER CommonFunctionsGW (ProcessorType := "Emulate 5570",
 				    "Mapping of Stratix Switch diagnostics to SCADA$N"
 				    "**********************************************************************************************************************************************";
 				N: NOP();
+		END_ROUTINE
+
+		ROUTINE _New_Routine 
+				N: XIC(test1)OTE(test2);
 		END_ROUTINE
 
 		CHILD_PROGRAMS
